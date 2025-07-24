@@ -23,10 +23,33 @@ export function AnswerReveal({
   const { speak, isSpeaking } = useSpeech();
 
   const handlePlayPronunciation = async () => {
+    const maxRetries = 2;
+    let retryCount = 0;
+
+    const attemptSpeak = async (): Promise<void> => {
+      try {
+        await speak(word.english);
+      } catch (error) {
+        console.error(`語音播放失敗 (嘗試 ${retryCount + 1}/${maxRetries + 1}):`, error);
+        
+        if (retryCount < maxRetries) {
+          retryCount++;
+          // 等待一下再重試
+          await new Promise(resolve => setTimeout(resolve, 200));
+          return attemptSpeak();
+        } else {
+          // 所有重試都失敗了
+          console.error('語音播放最終失敗，已達到最大重試次數');
+          throw error;
+        }
+      }
+    };
+
     try {
-      await speak(word.english);
-    } catch (err) {
-      console.error('播放發音失敗:', err);
+      await attemptSpeak();
+    } catch (error) {
+      // 最終失敗，但不阻止用戶繼續使用
+      console.error('語音播放完全失敗:', error);
     }
   };
 

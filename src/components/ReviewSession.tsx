@@ -51,14 +51,37 @@ export function ReviewSession({ onComplete, onBackToSetup, className = '' }: Rev
             : 0
     };
 
-    // 播放發音
+    // 播放發音 - 增加重試機制
     const handleSpeak = useCallback(async () => {
         if (!currentWord || isSpeaking) return;
 
+        const maxRetries = 2;
+        let retryCount = 0;
+
+        const attemptSpeak = async (): Promise<void> => {
+            try {
+                await speak(currentWord.english);
+            } catch (error) {
+                console.error(`語音播放失敗 (嘗試 ${retryCount + 1}/${maxRetries + 1}):`, error);
+                
+                if (retryCount < maxRetries) {
+                    retryCount++;
+                    // 等待一下再重試
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                    return attemptSpeak();
+                } else {
+                    // 所有重試都失敗了
+                    console.error('語音播放最終失敗，已達到最大重試次數');
+                    throw error;
+                }
+            }
+        };
+
         try {
-            await speak(currentWord.english);
+            await attemptSpeak();
         } catch (error) {
-            console.error('語音播放失敗:', error);
+            // 最終失敗，但不阻止用戶繼續使用
+            console.error('語音播放完全失敗:', error);
         }
     }, [currentWord, isSpeaking, speak]);
 

@@ -101,8 +101,9 @@ export class SpeechController {
       return;
     }
 
-    // Stop any current speech
+    // Stop any current speech and wait a bit
     this.stop();
+    await new Promise(resolve => setTimeout(resolve, 50));
 
     return new Promise((resolve, reject) => {
       try {
@@ -124,27 +125,77 @@ export class SpeechController {
         // Set language for English text
         utterance.lang = 'en-US';
 
+        let hasStarted = false;
+        let hasEnded = false;
+
+        // Timeout to handle cases where speech doesn't start
+        const timeout = setTimeout(() => {
+          if (!hasStarted && !hasEnded) {
+            console.warn('Speech timeout - retrying...');
+            this.handleError(SpeechError.SYNTHESIS_FAILED);
+            reject(new Error('Speech synthesis timeout'));
+          }
+        }, 3000);
+
         // Event handlers
         utterance.onstart = () => {
+          hasStarted = true;
+          clearTimeout(timeout);
           if (this.onSpeechStart) {
             this.onSpeechStart();
           }
         };
 
         utterance.onend = () => {
+          hasEnded = true;
+          clearTimeout(timeout);
           if (this.onSpeechEnd) {
             this.onSpeechEnd();
           }
           resolve();
         };
 
-        utterance.onerror = (_event) => {
+        utterance.onerror = (event) => {
+          hasEnded = true;
+          clearTimeout(timeout);
+          console.error('Speech synthesis error:', event);
           this.handleError(SpeechError.SYNTHESIS_FAILED);
           reject(new Error(this.getErrorMessage(SpeechError.SYNTHESIS_FAILED)));
         };
-        this.synthesis.speak(utterance);
+
+        // Check if synthesis is available
+        if (!this.synthesis) {
+          throw new Error('Speech synthesis not available');
+        }
+
+        // Speak with a small delay to ensure browser is ready
+        setTimeout(() => {
+          try {
+            this.synthesis.speak(utterance);
+            
+            // Fallback check - if speech doesn't start within 1 second, something might be wrong
+            setTimeout(() => {
+              if (!hasStarted && !hasEnded) {
+                console.warn('Speech may have failed to start, checking synthesis state...');
+                if (!this.synthesis.speaking && !this.synthesis.pending) {
+                  console.error('Speech failed to start - no speaking or pending state');
+                  clearTimeout(timeout);
+                  this.handleError(SpeechError.SYNTHESIS_FAILED);
+                  reject(new Error('Speech failed to start'));
+                }
+              }
+            }, 1000);
+            
+          } catch (speakError) {
+            clearTimeout(timeout);
+            console.error('Error calling synthesis.speak:', speakError);
+            this.handleError(SpeechError.SYNTHESIS_FAILED);
+            reject(speakError);
+          }
+        }, 10);
 
       } catch (error) {
+        console.error('Error in speak method:', error);
         this.handleError(SpeechError.SYNTHESIS_FAILED);
         reject(error);
       }
