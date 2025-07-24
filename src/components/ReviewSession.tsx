@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { useAppContext, useReviewState, useActiveWordList, useSpeechSettings } from '../contexts/AppContext';
+import { useAppContext, useReviewState, useActiveWordList } from '../contexts/AppContext';
 import { useSpeech } from '../hooks/useSpeech';
 import { WordItem } from '../types';
 import { ProgressIndicator } from './ProgressIndicator';
@@ -14,7 +14,6 @@ export function ReviewSession({ onComplete, onBackToSetup, className = '' }: Rev
     const { updateReviewState } = useAppContext();
     const reviewState = useReviewState();
     const activeWordList = useActiveWordList();
-    const speechSettings = useSpeechSettings();
 
     const {
         speak,
