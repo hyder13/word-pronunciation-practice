@@ -56,26 +56,27 @@ export function QuestionCard({
         </p>
       </div>
 
-      {/* 發音按鈕 */}
+      {/* 發音按鈕 - 更大的觸控區域 */}
       <div className="text-center">
         <button
           onClick={handlePlayPronunciation}
           disabled={isSpeaking}
           className={`
             inline-flex items-center justify-center
-            px-6 py-3 rounded-lg font-medium text-white
-            transition-all duration-200 min-w-[140px]
+            px-8 py-4 rounded-xl font-bold text-white text-lg
+            transition-all duration-200 min-w-[180px] min-h-[60px]
             ${isSpeaking 
               ? 'bg-blue-400 cursor-not-allowed' 
-              : 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700'
+              : 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700 hover:scale-105 active:scale-95'
             }
-            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+            focus:outline-none focus:ring-4 focus:ring-blue-200 focus:ring-offset-2
+            shadow-lg hover:shadow-xl
           `}
           aria-label={`播放 ${word.chinese} 的英文發音`}
         >
           {isSpeaking ? (
             <>
-              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin -ml-1 mr-3 h-6 w-6 text-white" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
@@ -83,10 +84,10 @@ export function QuestionCard({
             </>
           ) : (
             <>
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 14.142M9 9a3 3 0 000 6v-6zM7 9H4a1 1 0 00-1 1v4a1 1 0 001 1h3l5 4V5L7 9z" />
               </svg>
-              聽發音
+              🔊 聽發音
             </>
           )}
         </button>

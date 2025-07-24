@@ -153,73 +153,73 @@ export function ReviewSession({ onComplete, onBackToSetup, className = '' }: Rev
                 color="primary"
             />
 
-            {/* 單字卡片 */}
-            <div className="card-child mb-8">
-                <div className="text-center">
-                    {/* 英文單字 */}
-                    <div className="mb-8">
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4">
-                            {currentWord.english}
-                        </h2>
-                        <div className="text-lg md:text-xl text-gray-600">
-                            英文單字
-                        </div>
+            {/* 單字卡片 - 整個卡片都可以點擊播放發音 */}
+            <button
+                onClick={handleSpeak}
+                disabled={isSpeaking}
+                className={`
+                    card-child mb-8 w-full text-center cursor-pointer
+                    transition-all duration-200 ease-out
+                    ${isSpeaking 
+                        ? 'opacity-75 cursor-not-allowed' 
+                        : 'hover:shadow-child-lg hover:scale-105 active:scale-95'
+                    }
+                    focus:outline-none focus:ring-4 focus:ring-childPrimary-200 focus:ring-offset-2
+                `}
+                aria-label={`點擊播放 ${currentWord.english} 的發音`}
+            >
+                {/* 英文單字 */}
+                <div className="mb-6">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+                        {currentWord.english}
+                    </h2>
+                    <div className="text-lg md:text-xl text-gray-600 dark:text-gray-400">
+                        英文單字
                     </div>
+                </div>
 
-                    {/* 中文翻譯 */}
-                    <div className="mb-8 p-6 bg-blue-50 border border-blue-200 rounded-lg">
-                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-blue-800 mb-2">
-                            {currentWord.chinese}
-                        </h3>
-                        <div className="text-base md:text-lg text-blue-600">
-                            中文翻譯
-                        </div>
+                {/* 中文翻譯 */}
+                <div className="mb-6 p-6 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-blue-800 dark:text-blue-200 mb-2">
+                        {currentWord.chinese}
+                    </h3>
+                    <div className="text-base md:text-lg text-blue-600 dark:text-blue-300">
+                        中文翻譯
                     </div>
+                </div>
 
-                    {/* 發音按鈕 */}
-                    <div className="mb-8">
-                        <button
-                            onClick={handleSpeak}
-                            disabled={isSpeaking}
-                            className={
-                                isSpeaking
-                                    ? 'btn-child-disabled text-xl md:text-2xl'
-                                    : 'btn-child-primary text-xl md:text-2xl'
-                            }
-                            aria-label={`播放 ${currentWord.english} 的發音`}
-                        >
-                            {isSpeaking ? (
-                                <>
-                                    <svg className="w-6 h-6 mr-3 animate-spin" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                                    </svg>
-                                    播放中...
-                                </>
-                            ) : (
-                                <>
-                                    <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 14.142M8.586 8.586A2 2 0 018 10v4a2 2 0 01.586 1.414L12 19l3.414-3.586A2 2 0 0116 14v-4a2 2 0 01-.586-1.414L12 5l-3.414 3.586z" />
-                                    </svg>
-                                    🔊 聽發音
-                                </>
-                            )}
-                        </button>
-                    </div>
-
-                    {/* 語音錯誤提示 */}
-                    {speechError && (
-                        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                            <div className="flex items-center">
-                                <svg className="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span className="text-red-700 text-sm">{speechError}</span>
-                            </div>
-                        </div>
+                {/* 發音狀態指示 */}
+                <div className="flex items-center justify-center space-x-3">
+                    {isSpeaking ? (
+                        <>
+                            <svg className="w-6 h-6 animate-spin text-childPrimary-500" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            </svg>
+                            <span className="text-lg font-medium text-childPrimary-600 dark:text-childPrimary-400">播放中...</span>
+                        </>
+                    ) : (
+                        <>
+                            <svg className="w-6 h-6 text-childPrimary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 14.142M9 9a3 3 0 000 6v-6zM7 9H4a1 1 0 00-1 1v4a1 1 0 001 1h3l5 4V5L7 9z" />
+                            </svg>
+                            <span className="text-lg font-medium text-childPrimary-600 dark:text-childPrimary-400">🔊 點擊聽發音</span>
+                        </>
                     )}
                 </div>
-            </div>
+            </button>
+
+            {/* 語音錯誤提示 */}
+            {speechError && (
+                <div className="mb-6 p-4 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
+                    <div className="flex items-center">
+                        <svg className="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-red-700 dark:text-red-300 text-sm">{speechError}</span>
+                    </div>
+                </div>
+            )}
 
             {/* 導航按鈕 */}
             <div className="flex flex-col sm:flex-row gap-4 justify-between">
