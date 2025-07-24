@@ -1,0 +1,444 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Error notification animations */
+@keyframes shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+@layer base {
+  html {
+    font-family: 'Microsoft JhengHei', 'PingFang TC', 'Noto Sans TC', sans-serif;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300;
+  }
+
+  /* Dark mode styles */
+  .dark body {
+    @apply bg-gray-900 text-gray-100;
+  }
+
+  /* Font size classes based on UI settings */
+  .font-size-small {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .font-size-medium {
+    font-size: 1rem;
+    line-height: 1.75rem;
+  }
+
+  .font-size-large {
+    font-size: 1.125rem;
+    line-height: 1.875rem;
+  }
+
+  /* Reduced motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Responsive container utilities */
+  .container-responsive {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .grid-responsive {
+    @apply grid gap-4 sm:gap-6 lg:gap-8;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .flex-responsive {
+    @apply flex flex-col sm:flex-row gap-4 sm:gap-6;
+  }
+
+  /* Touch-friendly button styles */
+  .btn-child-primary {
+    @apply bg-childPrimary-500 hover:bg-childPrimary-600 active:bg-childPrimary-700 
+           text-white font-bold py-child-lg px-child-xl rounded-child-lg 
+           shadow-child hover:shadow-child-lg active:shadow-child
+           transition-all duration-200 ease-out
+           focus:outline-none focus:ring-4 focus:ring-childPrimary-200 focus:ring-offset-2
+           transform hover:scale-105 active:scale-95
+           text-child-base md:text-child-lg
+           min-h-[3rem] md:min-h-[3.5rem] lg:min-h-[4rem]
+           touch:min-h-[3.5rem] touch:py-4 touch:px-6;
+  }
+
+  .btn-child-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 active:bg-gray-400
+           text-gray-800 font-bold py-child-lg px-child-xl rounded-child-lg
+           shadow-child hover:shadow-child-lg active:shadow-child
+           transition-all duration-200 ease-out
+           focus:outline-none focus:ring-4 focus:ring-gray-300 focus:ring-offset-2
+           transform hover:scale-105 active:scale-95
+           text-child-base md:text-child-lg
+           min-h-[3rem] md:min-h-[3.5rem] lg:min-h-[4rem]
+           touch:min-h-[3.5rem] touch:py-4 touch:px-6;
+  }
+
+  .btn-child-success {
+    @apply bg-childSuccess-500 hover:bg-childSuccess-600 active:bg-childSuccess-700
+           text-white font-bold py-child-lg px-child-xl rounded-child-lg
+           shadow-child hover:shadow-child-lg active:shadow-child
+           transition-all duration-200 ease-out
+           focus:outline-none focus:ring-4 focus:ring-childSuccess-200 focus:ring-offset-2
+           transform hover:scale-105 active:scale-95
+           text-child-base md:text-child-lg
+           min-h-[3rem] md:min-h-[3.5rem] lg:min-h-[4rem]
+           touch:min-h-[3.5rem] touch:py-4 touch:px-6;
+  }
+
+  .btn-child-warning {
+    @apply bg-childWarning-500 hover:bg-childWarning-600 active:bg-childWarning-700
+           text-white font-bold py-child-lg px-child-xl rounded-child-lg
+           shadow-child hover:shadow-child-lg active:shadow-child
+           transition-all duration-200 ease-out
+           focus:outline-none focus:ring-4 focus:ring-childWarning-200 focus:ring-offset-2
+           transform hover:scale-105 active:scale-95
+           text-child-base md:text-child-lg
+           min-h-[3rem] md:min-h-[3.5rem] lg:min-h-[4rem]
+           touch:min-h-[3.5rem] touch:py-4 touch:px-6;
+  }
+
+  /* Disabled button state */
+  .btn-child-disabled {
+    @apply bg-gray-300 text-gray-500 cursor-not-allowed
+           shadow-none hover:shadow-none
+           transform-none hover:scale-100 active:scale-100
+           focus:ring-0;
+  }
+
+  /* Dark mode button adjustments */
+  .dark .btn-child-secondary {
+    @apply bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-gray-100;
+  }
+
+  .dark .btn-child-disabled {
+    @apply bg-gray-800 text-gray-600;
+  }
+
+  /* Child-friendly card styles with responsive design */
+  .card-child {
+    @apply bg-white rounded-child-xl shadow-child border-2 border-gray-100 
+           p-4 sm:p-child-lg md:p-child-xl
+           hover:shadow-child-lg hover:border-gray-200
+           transition-all duration-300 ease-out
+           transform hover:-translate-y-1
+           touch:hover:transform-none touch:active:scale-95;
+  }
+
+  /* Responsive card grid */
+  .card-grid-responsive {
+    @apply grid gap-4 sm:gap-6 lg:gap-8
+           grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  /* Mobile-first card layout */
+  .card-mobile-stack {
+    @apply flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:space-x-6;
+  }
+
+  .dark .card-child {
+    @apply bg-gray-800 border-gray-700 hover:border-gray-600;
+  }
+
+  /* Loading and playing state indicators */
+  .loading-spinner {
+    @apply inline-block w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin;
+  }
+
+  .playing-indicator {
+    @apply inline-flex items-center space-x-2 text-childPrimary-600 animate-pulse-gentle;
+  }
+
+  .dark .playing-indicator {
+    @apply text-childPrimary-400;
+  }
+
+  /* Speech button with visual feedback */
+  .speech-button {
+    @apply relative overflow-hidden;
+  }
+
+  .speech-button::before {
+    content: '';
+    @apply absolute inset-0 bg-white opacity-0 transition-opacity duration-200;
+  }
+
+  .speech-button:active::before {
+    @apply opacity-20;
+  }
+
+  /* Progress indicator enhancements */
+  .progress-child {
+    @apply bg-gray-200 rounded-full overflow-hidden shadow-inner;
+  }
+
+  .dark .progress-child {
+    @apply bg-gray-700;
+  }
+
+  .progress-bar-child {
+    @apply bg-gradient-to-r from-childPrimary-400 to-childPrimary-600 
+           transition-all duration-500 ease-out
+           relative overflow-hidden;
+  }
+
+  .progress-bar-child::after {
+    content: '';
+    @apply absolute inset-0 bg-white opacity-20 animate-pulse-gentle;
+  }
+
+  /* Input field styles with responsive design */
+  .input-child {
+    @apply w-full px-child-lg py-child-md rounded-child border-2 border-gray-300
+           focus:border-childPrimary-500 focus:ring-4 focus:ring-childPrimary-200 focus:ring-offset-0
+           text-child-base font-medium
+           transition-all duration-200 ease-out
+           bg-white
+           touch:py-4 touch:text-base;
+  }
+
+  /* Responsive text sizes */
+  .text-responsive-xs { @apply text-xs sm:text-sm md:text-base; }
+  .text-responsive-sm { @apply text-sm sm:text-base md:text-lg; }
+  .text-responsive-base { @apply text-base sm:text-lg md:text-xl; }
+  .text-responsive-lg { @apply text-lg sm:text-xl md:text-2xl; }
+  .text-responsive-xl { @apply text-xl sm:text-2xl md:text-3xl; }
+
+  /* Mobile-first spacing */
+  .spacing-responsive-sm { @apply space-y-2 sm:space-y-4 md:space-y-6; }
+  .spacing-responsive-md { @apply space-y-4 sm:space-y-6 md:space-y-8; }
+  .spacing-responsive-lg { @apply space-y-6 sm:space-y-8 md:space-y-12; }
+
+  /* Touch-friendly interactive elements */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+
+  /* Responsive padding and margins */
+  .padding-responsive { @apply p-4 sm:p-6 md:p-8 lg:p-12; }
+  .margin-responsive { @apply m-4 sm:m-6 md:m-8 lg:m-12; }
+
+  .dark .input-child {
+    @apply bg-gray-800 border-gray-600 text-gray-100 focus:border-childPrimary-400;
+  }
+
+  /* Animation classes */
+  .animate-bounce-in {
+    animation: bounceIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  /* Settings panel styles */
+  .settings-panel {
+    @apply fixed top-0 right-0 h-full w-80 bg-white shadow-2xl
+           transform transition-transform duration-300 ease-out z-50
+           border-l border-gray-200;
+  }
+
+  .dark .settings-panel {
+    @apply bg-gray-800 border-gray-700;
+  }
+
+  .settings-panel.open {
+    @apply translate-x-0;
+  }
+
+  .settings-panel.closed {
+    @apply translate-x-full;
+  }
+
+  /* Overlay for settings panel */
+  .settings-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300;
+  }
+}
+
+@layer utilities {
+  /* Animation keyframes */
+  @keyframes bounceIn {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Utility classes for theme and font size */
+  .theme-transition {
+    @apply transition-colors duration-300 ease-out;
+  }
+
+  .no-animations * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Browser-specific fixes */
+  
+  /* Safari-specific fixes */
+  .browser-safari .btn-child-primary,
+  .browser-safari .btn-child-secondary,
+  .browser-safari .btn-child-success,
+  .browser-safari .btn-child-warning {
+    -webkit-appearance: none;
+    -webkit-border-radius: 1rem;
+  }
+
+  /* iOS-specific fixes */
+  .ios input,
+  .ios textarea,
+  .ios button {
+    -webkit-appearance: none;
+    border-radius: 0.75rem;
+  }
+
+  .ios .input-child {
+    font-size: 16px; /* Prevent zoom on focus */
+  }
+
+  /* Android-specific fixes */
+  .android button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Firefox-specific fixes */
+  .browser-firefox button {
+    -moz-appearance: none;
+  }
+
+  /* Touch device optimizations */
+  .touch button,
+  .touch .btn-child-primary,
+  .touch .btn-child-secondary,
+  .touch .btn-child-success,
+  .touch .btn-child-warning {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .btn-child-primary,
+    .btn-child-secondary,
+    .btn-child-success,
+    .btn-child-warning {
+      border: 2px solid currentColor;
+    }
+
+    .card-child {
+      border-width: 3px;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-bounce-gentle,
+    .animate-pulse-gentle,
+    .animate-wiggle,
+    .animate-slide-in,
+    .animate-slide-out,
+    .animate-fade-in,
+    .animate-scale-in {
+      animation: none;
+    }
+
+    .transform {
+      transform: none !important;
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .btn-child-primary,
+    .btn-child-secondary,
+    .btn-child-success,
+    .btn-child-warning {
+      background: white !important;
+      color: black !important;
+      border: 2px solid black !important;
+    }
+
+    .card-child {
+      border: 2px solid black !important;
+      box-shadow: none !important;
+    }
+  }
+
+  /* Fallbacks for older browsers */
+  .no-css-grid .grid-responsive {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .no-css-grid .grid-responsive > * {
+    flex: 1 1 280px;
+    margin: 0.5rem;
+  }
+
+  .no-flexbox .flex-responsive {
+    display: block;
+  }
+
+  .no-flexbox .flex-responsive > * {
+    display: block;
+    margin-bottom: 1rem;
+  }
+}

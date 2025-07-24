@@ -1,0 +1,104 @@
+{
+  "name": "單字發音練習",
+  "short_name": "單字練習",
+  "description": "專為小學生設計的英文單字學習工具",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0ea5e9",
+  "orientation": "portrait-primary",
+  "categories": ["education", "kids", "learning"],
+  "lang": "zh-TW",
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "桌面版主畫面"
+    },
+    {
+      "src": "/screenshots/mobile-1.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "手機版主畫面"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "開始複習",
+      "short_name": "複習",
+      "description": "直接開始複習模式",
+      "url": "/?mode=review",
+      "icons": [
+        {
+          "src": "/icons/shortcut-review.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "開始考試",
+      "short_name": "考試",
+      "description": "直接開始考試模式",
+      "url": "/?mode=exam",
+      "icons": [
+        {
+          "src": "/icons/shortcut-exam.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}
